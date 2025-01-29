@@ -78,10 +78,22 @@ def get_cutadapt_input(wildcards):
 
 
 def get_cutadapt_pipe_input(wildcards):
-    files = list(
-        sorted(glob.glob(units.loc[wildcards.sample].loc[wildcards.unit, wildcards.fq]))
-    )
-    assert len(files) > 0
+    # Get the file path from units DataFrame
+    file_path = units.loc[wildcards.sample].loc[wildcards.unit, wildcards.fq]
+    
+    # Handle NaN/missing values
+    if pd.isna(file_path):
+        raise ValueError(f"Missing file path for sample {wildcards.sample}, unit {wildcards.unit}, {wildcards.fq}")
+        
+    # Convert to string and handle potential wildcards
+    file_path = str(file_path).strip()
+    
+    # Use glob to find matching files
+    files = sorted(glob.glob(file_path))
+    
+    if not files:
+        raise ValueError(f"No files found matching pattern: {file_path}")
+        
     return files
 
 

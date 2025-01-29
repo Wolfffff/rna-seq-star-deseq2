@@ -12,14 +12,16 @@ rule cutadapt_pipe:
     input:
         get_cutadapt_pipe_input,
     output:
-        pipe("pipe/cutadapt/{sample}/{unit}.{fq}.{ext}"),
+        "pipe/cutadapt/{sample}/{unit}.{fq}.{ext}",
     log:
-        "logs/pipe-fastqs/catadapt/{sample}_{unit}.{fq}.{ext}.log",
+        "logs/cutadapt/{sample}_{unit}.{fq}.{ext}.log",
     wildcard_constraints:
         ext=r"fastq|fastq\.gz",
-    threads: 0
+    threads: 1
     shell:
-        "cat {input} > {output} 2> {log}"
+        """
+        cp {input} {output} 2> {log}
+        """
 
 
 rule cutadapt_pe:

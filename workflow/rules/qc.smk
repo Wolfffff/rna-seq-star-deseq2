@@ -27,8 +27,8 @@ rule rseqc_junction_annotation:
     params:
         extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
         prefix=lambda w, output: output[0].replace(".junction.bed", ""),
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
         "> {log[0]} 2>&1"
@@ -46,8 +46,8 @@ rule rseqc_junction_saturation:
     params:
         extra=r"-q 255",
         prefix=lambda w, output: output[0].replace(".junctionSaturation_plot.pdf", ""),
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
         "> {log} 2>&1"
@@ -61,8 +61,8 @@ rule rseqc_stat:
     priority: 1
     log:
         "logs/rseqc/rseqc_stat/{sample}_{unit}.log",
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "bam_stat.py -i {input} > {output} 2> {log}"
 
@@ -76,8 +76,8 @@ rule rseqc_infer:
     priority: 1
     log:
         "logs/rseqc/rseqc_infer/{sample}_{unit}.log",
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "infer_experiment.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
 
@@ -93,8 +93,8 @@ rule rseqc_innerdis:
         "logs/rseqc/rseqc_innerdis/{sample}_{unit}.log",
     params:
         prefix=lambda w, output: output[0].replace(".inner_distance.txt", ""),
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "inner_distance.py -r {input.bed} -i {input.bam} -o {params.prefix} > {log} 2>&1"
 
@@ -108,8 +108,8 @@ rule rseqc_readdis:
     priority: 1
     log:
         "logs/rseqc/rseqc_readdis/{sample}_{unit}.log",
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "read_distribution.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
 
@@ -124,8 +124,8 @@ rule rseqc_readdup:
         "logs/rseqc/rseqc_readdup/{sample}_{unit}.log",
     params:
         prefix=lambda w, output: output[0].replace(".DupRate_plot.pdf", ""),
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "read_duplication.py -i {input} -o {params.prefix} > {log} 2>&1"
 
@@ -140,8 +140,8 @@ rule rseqc_readgc:
         "logs/rseqc/rseqc_readgc/{sample}_{unit}.log",
     params:
         prefix=lambda w, output: output[0].replace(".GC_plot.pdf", ""),
-    conda:
-        "../envs/rseqc.yaml"
+    # conda:
+    #     "../envs/rseqc.yaml"
     shell:
         "read_GC.py -i {input} -o {params.prefix} > {log} 2>&1"
 
